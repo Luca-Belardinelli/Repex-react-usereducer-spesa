@@ -19,6 +19,9 @@ function App() {
 
   // funzone per gestire la quantità degli oggetti nel carello
   function updateProductQuantity(name, quantity) {
+    if (quantity < 1 || isNaN(quantity)) {
+      return;
+    }
     setaddedProducts(curr => curr.map(p => p.name === name ? { ...p, quantity } : p)
     );
   }
@@ -66,6 +69,9 @@ function App() {
             {/* Mappa i prodotti nel carrello mostrando nome, prezzo e quantità */}
             {addedProducts.map((p, index) => (
               <li key={index}>
+                <input type="number" value={p.quantity} onChange={
+                  e => updateProductQuantity(p.name, parseInt(e.target.value))
+                } />
                 {p.name} - €{p.price.toFixed(2)} x {p.quantity}
                 <button onClick={() => removeFromCart(p.name)}>Rimuovi dal carrello</button>
               </li>
